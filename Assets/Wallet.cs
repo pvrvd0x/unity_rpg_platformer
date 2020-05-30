@@ -23,13 +23,9 @@ public class Wallet : MonoBehaviour {
     PickupMoney();
   }
 
-  private void ChangeCoinsAmmount() {
-    bunchOfCoins.MaxAmountOfCoins = money;
-    bunchOfCoins.MinAmountOfCoins = money / 2;
-  }
-  
   public void DropMoney() {
-    Instantiate(bunchOfCoinsTransform, transform.position, Quaternion.identity);
+    var coins = Instantiate(bunchOfCoinsTransform, transform.position, Quaternion.identity);
+    coins.GetComponent<BunchOfCoins>().SetCoinsRange(money);
   }
 
   private void PickupMoney() {
@@ -38,7 +34,7 @@ public class Wallet : MonoBehaviour {
     foreach (var coin in coins) {
       Destroy(coin.gameObject);
       money++;
-      ChangeCoinsAmmount();
+      bunchOfCoins.SetCoinsRange(money);
     }
   }
 

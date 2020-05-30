@@ -300,8 +300,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spellPrefabs:
   - {fileID: 7545444091048886960, guid: 713c6bf2a3ef0f84dab62574680edabc, type: 3}
+  - {fileID: 6095407325488239373, guid: f8dca43380fbe0541922e290e8fa47ef, type: 3}
   keyBindings:
   - k
+  - j
+  type: 0000000001000000
 --- !u!114 &6591650665691042428
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public enum State {
   Dead,
   Invulnerable,
   Agroed,
+  Moveless,
 }
 
 public class StateController : MonoBehaviour {

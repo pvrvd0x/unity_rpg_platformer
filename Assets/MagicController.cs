@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MagicController : MonoBehaviour {
   [Header("Components")] 
   [SerializeField] private SpellTome spellTome;
   [SerializeField] private BarStatsController manabar;
+  [SerializeField] private AnimationController animationController;
+  [SerializeField] private StateController stateController;
 
   [Header("Parameters")] 
   [SerializeField] private float maxMana;
@@ -29,27 +32,85 @@ public class MagicController : MonoBehaviour {
     }
     
     for (var i = 0; i < spellTome.SpellPrefabs.Length; i++) {
-      if (Input.GetKeyDown(spellTome.KeyBindings[i])) {
-        var position = transform.position;
-        GetComponentInParent<AnimationController>().EnableCastAnimation();
+      var spell = spellTome.SpellPrefabs[i];
+      var spellComponent = spell.GetComponent<Spell>();
+      
+      float manaReduction = spellComponent.ManaCost;
 
-        float manaReduction = spellTome.SpellPrefabs[i].GetComponent<Spell>().ManaCost;
+      switch (spellComponent.SpellType) {
+        case SpellType.SingleCast:
+          if (Input.GetKeyDown(spellTome.KeyBindings[i])) {
+            if (currentMana - manaReduction <= 0) {
+              return;
+            }
+            
+            SingleCast(spell);
+            ReduceMana(manaReduction);
+          }
+          break;
         
-        if (currentMana - manaReduction < 0) {
-          return;
-        }
-        
-        var spell = Instantiate(
-          spellTome.SpellPrefabs[i],
-          new Vector3(position.x, position.y, 0f),
-          gameObject.transform.rotation
-        );
+        case SpellType.ContinuousCast:
+          if (Input.GetKeyDown(spellTome.KeyBindings[i])) {
+            if (currentMana - manaReduction <= 0) {
+              CancelContinuousCast(spell);
+              return;
+            }
+            
+            var position = transform.position;
+            var parentTransform = gameObject.transform;
+            Instantiate(
+              spell,
+              new Vector3(position.x, position.y, 0f),
+              parentTransform.rotation,
+              parentTransform
+            );
+          }
+          
+          if (Input.GetKey(spellTome.KeyBindings[i])) {
+            if (currentMana - manaReduction <= 0) {
+              CancelContinuousCast(spell);
+              return;
+            }
+            
+            ContinuousCast(spell);
+            ReduceMana(manaReduction);
+          } else {
+            CancelContinuousCast(spell);
+          }
 
-        currentMana -= manaReduction;
-        manabar.Change(manaReduction, false);
-        spell.GetComponent<Projectile>().SpawnOrigin = gameObject;
-        manaRegenTimeout = Time.time + manaRegenTimeoutCoef;
+          break;
       }
     }
+  }
+
+  private void ReduceMana(float reduction) {
+    currentMana -= reduction;
+    manabar.Change(reduction, false);
+    manaRegenTimeout = Time.time + manaRegenTimeoutCoef;
+  }
+
+  private void SingleCast(Transform spellPrefab) {
+    var position = transform.position;
+    animationController.EnableCastAnimation();
+
+    var spell = Instantiate(
+      spellPrefab,
+      new Vector3(position.x, position.y, 0f),
+      gameObject.transform.rotation
+    );
+    try {
+      spell.GetComponent<Projectile>().SpawnOrigin = gameObject;
+    } catch(NullReferenceException e) {}
+  }
+
+  private void ContinuousCast(Transform spellPrefab) {
+    animationController.ToggleContinuousCastAnimation(true);
+    stateController.State = State.Moveless;
+  }
+
+  private void CancelContinuousCast(Transform spellInstance) {
+    animationController.ToggleContinuousCastAnimation(false);
+    stateController.State = State.Active;
+    Destroy(GameObject.Find($"{spellInstance.name}(Clone)"));
   }
 }

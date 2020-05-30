@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6194181514153365343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6194181514153365342}
+  - component: {fileID: 6194181514153365341}
+  m_Layer: 0
+  m_Name: CloudGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6194181514153365342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194181514153365343}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.14, y: 0.13, z: -146.46208}
+  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6194181514153365341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194181514153365343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e60f30797a72542820599d7b7f9208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clouds:
+  - {fileID: 3782612902413435978, guid: cf8e5428f91eba244943067bf86401f1, type: 3}
+  - {fileID: 2773861077611289022, guid: b00b6f745b78b094d9ca28ed2cd16b12, type: 3}
+  - {fileID: 140885794608970876, guid: 3aa903ecea8d8e24f875f40392b8dbf5, type: 3}
+  - {fileID: 1440909174661475355, guid: 297685a7852d0474aaf21fcfa1a7cb1b, type: 3}
+  - {fileID: 6612158671720815862, guid: 0ade6d22d65aa6d49bd67269b1898c99, type: 3}
+  - {fileID: 7612396781712899734, guid: 5e487605efad56c468a9a1db2a4d8f8a, type: 3}
+  - {fileID: 9186373760664350216, guid: 2904892652427dc4ab237f338ba5462e, type: 3}
+  - {fileID: 2464852799626594612, guid: 5327b9dcf7c75a94bafcaa95d7abc590, type: 3}
+  height: 20
+  timeoutBetweenCloudsSpawn: 3

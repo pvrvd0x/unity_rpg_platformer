@@ -34,4 +34,8 @@ public class AnimationController : MonoBehaviour {
   public void EnableCastAnimation() {
     animator.SetTrigger(AnimatorProperties.Cast);
   }
+
+  public void ToggleContinuousCastAnimation(bool state) {
+    animator.SetBool(AnimatorProperties.IsCasting, state);
+  }
 }

@@ -9,4 +9,5 @@ public class AnimatorProperties {
   public static readonly int Hurt = Animator.StringToHash("Hurt");
   public static readonly int IsAgroed = Animator.StringToHash("IsAgroed");
   public static readonly int Cast = Animator.StringToHash("Cast");
+  public static readonly int IsCasting = Animator.StringToHash("IsCasting");
 }

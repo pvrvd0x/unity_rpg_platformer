@@ -48,10 +48,14 @@ public class CombatController : MonoBehaviour {
 
   private void Update() {
     if (Time.time > healthRegenTimeout && _currentHealth <= maxHealth) {
-      float healthChange = healthRegen / 100;
-      _currentHealth += healthChange;
-      healthBar.Change(healthChange, true);
+      Heal();
     }
+  }
+
+  public void Heal(float additionalHealth = 0) {
+    float healthChange = healthRegen / 100;
+    _currentHealth += healthChange + additionalHealth;
+    healthBar.Change(healthChange, true);
   }
 
   public void Attack() {

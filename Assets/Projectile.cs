@@ -7,7 +7,6 @@ public class Projectile : MonoBehaviour {
   
   [Header("Parameters")] 
   [SerializeField] private float flightSpeed;
-  [SerializeField] private float damage;
 
   private GameObject spawnOrigin;
   private CombatController combatController;
@@ -30,7 +29,7 @@ public class Projectile : MonoBehaviour {
 
   private void OnCollisionEnter2D(Collision2D other) {
     Destroy(gameObject);
-    Transform impactEffect = Instantiate(impactEffectPrefab, transform.position, Quaternion.identity);
+    Transform impactEffect = Instantiate(impactEffectPrefab, transform.position, Quaternion.identity, spawnOrigin.transform);
     impactEffect.GetComponent<AttackDamageController>().CombatController = combatController;
   }
 }

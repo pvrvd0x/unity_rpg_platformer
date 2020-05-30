@@ -6,17 +6,14 @@ public class BunchOfCoins : MonoBehaviour {
   [SerializeField] private int maxAmountOfCoins;
   [SerializeField] private int minAmountOfCoins;
 
-  public int MaxAmountOfCoins {
-    set => maxAmountOfCoins = value;
-  }
-
-  public int MinAmountOfCoins {
-    set => minAmountOfCoins = value;
+  public void SetCoinsRange(int range) {
+    maxAmountOfCoins = range;
+    minAmountOfCoins = range / 2;
   }
 
   private void Start() {
     int amountOfCoins = Random.Range(minAmountOfCoins, maxAmountOfCoins);
-    
+
     for (int i = 0; i < amountOfCoins; i++) {
       Vector2 currentPosition = transform.position;
       GameObject coin = Instantiate(coinPrefab, currentPosition, Quaternion.identity);

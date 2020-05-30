@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public class MovementController : MonoBehaviour {
   [Header("Components")]
@@ -28,14 +30,25 @@ public class MovementController : MonoBehaviour {
     _currentRollSpeed = rollSpeed;
   }
 
-  private void Update() {
-    if (stateController.CheckState(State.Stunned) || stateController.CheckState(State.Dead))
+    private void Update() {
+      if (stateController.CheckState(State.Stunned)
+          || stateController.CheckState(State.Dead)
+          || stateController.CheckState(State.Moveless))
+        return;
+      
+      Jump();
+      Roll();
+      GetDown();
+    }
+
+    private void FixedUpdate() {
+    if (stateController.CheckState(State.Stunned)
+        || stateController.CheckState(State.Dead)
+        || stateController.CheckState(State.Moveless))
       return;
     
     Move();
-    Roll();
-    Jump();
-  }
+    }
 
   private void Move() {
     float movementDirection = Input.GetAxisRaw("Horizontal");
@@ -59,9 +72,9 @@ public class MovementController : MonoBehaviour {
     
     int direction = _isFacingRight ? 1 : -1;
     transform.position += new Vector3(direction * _currentRollSpeed / 10f * Time.deltaTime, 0f, 0f);
-    _currentRollSpeed -= _currentRollSpeed * 3f * Time.deltaTime;
-
-    if (_currentRollSpeed <= 15f) {
+    _currentRollSpeed -= _currentRollSpeed * 10f * Time.deltaTime;
+    
+    if (_currentRollSpeed <= 20f) {
       _isRolling = false;
       _currentRollSpeed = rollSpeed;
       stateController.State = State.Active;
@@ -78,6 +91,13 @@ public class MovementController : MonoBehaviour {
     }
     
     _playerAnimationController.TriggerJumpAnimation(!_wasGrounded);
+  }
+  
+  private void GetDown() {
+    if (Input.GetKeyDown(KeyCode.S) && !_isRolling) {
+      gameObject.layer = LayerMask.NameToLayer("player through platform");
+    }
+    // gameObject.layer = LayerMask.NameToLayer("player");
   }
 
   private void CheckIfGrounded() {
